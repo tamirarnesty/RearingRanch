@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
 /**
  * The GameStage class acts as a parent class for ColorChooser, Animal Classifier and
@@ -15,9 +16,11 @@ import java.awt.*;
  * Things i should probably think about in the future:
  * This class should probably handle all of the Game UI.
  */
-public abstract class GameStage extends JPanel {
+public abstract class GameStage extends JPanel implements ActionListener {
     protected Animal [] animals;
     protected JTextField inputBar = new JTextField(1);
+    protected JButton [] buttons = new JButton[4];
+    private final int difficulty;
 
     /**
      * Initiates the playing process by filling the array with random
@@ -26,14 +29,31 @@ public abstract class GameStage extends JPanel {
      */
     public GameStage (int difficulty) {
         super(new SpringLayout());
-        generateBackground();
-        generateAnimals(difficulty);
+        this.difficulty = difficulty;
+        generateAnimals();
         prepareGUI ();
 //        drawAnimal(0, 0, 0);
     }
 
     protected void prepareGUI () {
+        Color [] colors = {Color.BLACK, Color.GRAY, new Color (196, 152, 65), Color.WHITE};
+        String [] labels = {"Black", "Gray", "Brown", "White"};
 
+        generateBackground();
+
+        for (int h = 0; h < 4; h ++) {
+            buttons [h].setText(labels [h]);
+            buttons [h].setBackground(colors [h]);
+            buttons [h].setOpaque(true);
+            buttons [h].setBorderPainted(false);
+            buttons [h].addActionListener(this);
+        }
+    }
+
+    private void writeInput (String input) {
+        String tempHolder = inputBar.getText();
+        inputBar.setText(tempHolder + " " + input);
+        inputBar.repaint();
     }
 
     /**
@@ -77,7 +97,7 @@ public abstract class GameStage extends JPanel {
      * @return The input that is entered into the input bar.
      */
     protected String readInput () {
-        return "";
+        return inputBar.getText();
     }
 
     /**
@@ -90,9 +110,8 @@ public abstract class GameStage extends JPanel {
     /**
      * Randomly generates the animals according to the difficulty parameter,
      * numbers them from 0 to n and draws them on the screen accordingly from top to bottom, left to right.
-     * @param difficulty the difficulty of the game that is to be filled with animals.
      */
-    protected abstract void generateAnimals (int difficulty);
+    protected abstract void generateAnimals ();
 
     /**
      * Checks whether the input from the input bar is legal and return true if so.
@@ -100,4 +119,21 @@ public abstract class GameStage extends JPanel {
      * @return Returns true if, and only if the input from the input bar is legal.
      */
     protected abstract boolean inputLegal();
+
+    @Override
+    public void actionPerformed (ActionEvent ae) {
+        if (difficulty == 1) {
+            if (ae.getActionCommand().equalsIgnoreCase("black") || ae.getActionCommand().equalsIgnoreCase("gray") || ae.getActionCommand().equalsIgnoreCase("brown") || ae.getActionCommand().equalsIgnoreCase("white"))
+                writeInput(ae.getActionCommand());
+        } else if (difficulty == 2) {
+            if (ae.getActionCommand().equalsIgnoreCase("horse") || ae.getActionCommand().equalsIgnoreCase("chicken") || ae.getActionCommand().equalsIgnoreCase("cow") || ae.getActionCommand().equalsIgnoreCase("sheep") ||
+                    ae.getActionCommand().equalsIgnoreCase("goose") || ae.getActionCommand().equalsIgnoreCase("goat"))
+                writeInput(ae.getActionCommand());
+        } else if (difficulty == 3) {
+            if (ae.getActionCommand().equalsIgnoreCase("1") || ae.getActionCommand().equalsIgnoreCase("2") || ae.getActionCommand().equalsIgnoreCase("3") || ae.getActionCommand().equalsIgnoreCase("4") ||
+                    ae.getActionCommand().equalsIgnoreCase("5") || ae.getActionCommand().equalsIgnoreCase("6") || ae.getActionCommand().equalsIgnoreCase("7") || ae.getActionCommand().equalsIgnoreCase("8") ||
+                    ae.getActionCommand().equalsIgnoreCase("9") || ae.getActionCommand().equalsIgnoreCase("0"))
+                writeInput(ae.getActionCommand());
+        }
+    }
 }
