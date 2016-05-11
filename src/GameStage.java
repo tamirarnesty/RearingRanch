@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * The GameStage class acts as a parent class for ColorChooser, Animal Classifier and
@@ -16,6 +17,7 @@ import javax.swing.*;
  */
 public abstract class GameStage extends JPanel {
     protected Animal [] animals;
+    protected JTextField inputBar = new JTextField(1);
 
     /**
      * Initiates the playing process by filling the array with random
@@ -23,8 +25,15 @@ public abstract class GameStage extends JPanel {
      *
      */
     public GameStage (int difficulty) {
+        super(new SpringLayout());
         generateBackground();
         generateAnimals(difficulty);
+        prepareGUI ();
+//        drawAnimal(0, 0, 0);
+    }
+
+    protected void prepareGUI () {
+
     }
 
     /**
@@ -37,7 +46,10 @@ public abstract class GameStage extends JPanel {
      * @param id Holds the value for the id number of the animal to be drawn.
      */
     protected void drawAnimal (int x, int y, int id) {
-
+        Graphics g = this.getGraphics();
+        System.out.println(animals[id].getPicture().getHeight());
+        g.drawImage(animals[id].getPicture(), x, y, null);
+        this.repaint(x-1, y-1, animals[id].getPicture().getWidth()+1, animals [id].getPicture().getHeight()+1);
     }
 
     /**
@@ -69,20 +81,18 @@ public abstract class GameStage extends JPanel {
     }
 
     /**
-     * Randomly generates the animals according to the difficulty parameter,
-     * numbers them from 0 to n and draws them on the screen accordingly from top to bottom, left to right.
-     * @param difficulty the difficulty of the game that is to be filled with animals.
-     */
-    private void generateAnimals (int difficulty) {
-
-    }
-
-    /**
      * Randomly chooses a background from the resources and draws it on the scene.
      */
     private void generateBackground () {
 
     }
+
+    /**
+     * Randomly generates the animals according to the difficulty parameter,
+     * numbers them from 0 to n and draws them on the screen accordingly from top to bottom, left to right.
+     * @param difficulty the difficulty of the game that is to be filled with animals.
+     */
+    protected abstract void generateAnimals (int difficulty);
 
     /**
      * Checks whether the input from the input bar is legal and return true if so.

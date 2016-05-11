@@ -1,3 +1,6 @@
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
 
 /**
@@ -16,7 +19,7 @@ import java.io.*;
  */
 public class Animal {
     private final String type, color;
-    private File picture;
+    private BufferedImage picture;
 
     /**
      * Creates an instance of this class and assigns the type and color of this animal
@@ -27,7 +30,9 @@ public class Animal {
     public Animal (String color, String type) {
         this.color = color;
         this.type = type;
-        picture = new File("pictures/" + type + "-" + color);
+        try {
+            picture = ImageIO.read(new File("src/pictures/" + type + "-" + color + ".png"));
+        } catch (IOException e) {}
     }
 
     /**
@@ -50,7 +55,7 @@ public class Animal {
      * Retruns the picture file that is associated with this animal.
      * @return The File that is associated with this animal.
      */
-    public File getPicture () {
+    public BufferedImage getPicture () {
         return picture;
     }
 }
