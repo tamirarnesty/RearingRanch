@@ -1,7 +1,7 @@
 # RearingRanch
-Rearing Ranch is a small game me, Inal Gotov and my partner Tamir Arnesty are 
-making for our final project in our programming class. It will be an educative
-game for kids from age 3-5 which will teach them basic color, classification of 
-animals as well as simple arithmetics.
+Rearing Ranch is a small game my partner Tamir Arnesty and I, Inal Gotov, are 
+developing for our final project in our Grade 12 AP Computer Science class. It will be an educational
+game for children between the ages of 3 to 5, which will teach them basic colors, classification of 
+animals, as well as simple arithmetic.
 
 The game is in a farming theme where you must help a young cowboy manage his farm.
